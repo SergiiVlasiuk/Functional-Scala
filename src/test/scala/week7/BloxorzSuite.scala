@@ -51,7 +51,7 @@ class BloxorzSuite extends FunSuite {
   }
 
   new Level1 {
-    val candidates = Set(
+    val candidates: Set[(Block, List[Move])] = Set(
       (Block(Pos(1, 2), Pos(1, 3)), List(Right, Left, Up)),
       (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left, Up))
     )

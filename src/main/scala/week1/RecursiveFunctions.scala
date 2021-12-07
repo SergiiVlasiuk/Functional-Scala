@@ -5,6 +5,38 @@ import scala.language.postfixOps
 
 object RecursiveFunctions {
 
+  def main(args: Array[String]) {
+    println("Pascal's Triangle")
+    printTriangle2(8)
+  }
+
+  def printTriangle(rowMax: Int): Unit = {
+    for (row <- 0 to rowMax) {
+      for (col <- 0 to row)
+        print(pascal(col, row) + " ")
+      println()
+    }
+  }
+
+  def printTriangle2(rowMax: Int): Unit = {
+    val res = for {
+      row <- 0 to rowMax
+      col <- 0 to row
+    } yield (row, pascal(col, row))
+
+    printTr(res.toList)
+
+    @scala.annotation.tailrec
+    def printTr(triangleValues: Seq[(Int, Int)]): Unit = {
+      val (row, next) = triangleValues.span{_._1 == triangleValues.head._1}
+      println(row.map(_._2).mkString(" "))
+      if (next != Nil) printTr(next)
+    }
+//    res.toList
+//        print(pascal(col, row) + " ")
+//      println(res)
+  }
+
   /**
    * The following pattern of numbers is called Pascal’s triangle.
    *     1
@@ -20,7 +52,7 @@ object RecursiveFunctions {
    * For example, pascal(0,2)=1, pascal(1,2)=2 and pascal(1,3)=3.
    */
   def pascal(c: Int, r: Int): Int = {
-    if (c > r || c < 0 || r < 0) 0
+    if (c > r || c < 0) 0
     else if (c == 0) 1
     else pascal(c - 1, r - 1) + pascal(c, r - 1)
   }
@@ -31,13 +63,28 @@ object RecursiveFunctions {
   def balance(chars: List[Char]): Boolean = {
 
     @tailrec
-    def parenthesesSearch(rest: List[Char], notClosed: Int): Boolean =
-      if (notClosed < 0) false
-      else if (rest.isEmpty) notClosed == 0
-      else parenthesesSearch(rest.tail, notClosed + balanceChange(rest.head))
+    def parenthesesSearch(rest: List[Char], closeStatus: Int): Boolean = rest match {
+      case _ if (closeStatus < 0) => false
+      case Nil => closeStatus == 0
+      case head::tail => parenthesesSearch(tail, closeStatus + balanceChange(head))
+    }
+    def balanceChange(ch: Char): Int = ch match {
+      case ')' => -1
+      case '(' => 1
+      case _ => 0
+    }
 
-
-    def balanceChange(ch: Char) = if (ch == ')') -1 else if (ch == '(') 1 else 0
+//    def parenthesesSearch(rest: List[Char], closeStatus: Int): Boolean =
+//      if (closeStatus < 0) false
+//      else if (rest.isEmpty) closeStatus == 0
+//      else parenthesesSearch(rest.tail, closeStatus + balanceChange(rest.head))
+//
+//    @tailrec
+//    def parenthesesSearch(rest: List[Char], notClosed: Int): Boolean =
+//      if (notClosed < 0) false
+//      else if (rest.isEmpty) notClosed == 0
+//      else parenthesesSearch(rest.tail, notClosed + balanceChange(rest.head))
+//    def balanceChange(ch: Char): Int = if (ch == ')') -1 else if (ch == '(') 1 else 0
 
     parenthesesSearch(chars, 0)
   }

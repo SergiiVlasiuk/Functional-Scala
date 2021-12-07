@@ -1,3 +1,12 @@
+# To Cover
+- apply FP in large context
+- useful design principles
+- mutable state
+- changes to add state
+- parallel and distributed systems
+  - exploit immutability for parallel execution
+  - distributed collections and big data
+
 Functional Programming Principles in Scala
 =====================
 
