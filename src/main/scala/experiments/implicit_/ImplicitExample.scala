@@ -1,4 +1,4 @@
-package experiments.implicut_
+package experiments.implicit_
 
 import scala.Predef.{any2stringadd => _, _}
 //import scala.language.implicitConversions
@@ -15,7 +15,7 @@ object ImplicitExample {
     println(value.prettyString("*"))
   }
 
-  implicit def defaultQuates: String = "\""
+  implicit def defaultQuotes: String = "\""
 }
 
 //case class ImplicitWrapper[+T : Ordering](x: T){ // similar meaning
